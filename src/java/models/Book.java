@@ -1,65 +1,79 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package models;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
  * @author matina
  */
 @Entity
-@Table(catalog = "books", schema = "")
+@Table(name = "book")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Book.findAll", query = "SELECT b FROM Book b"),
     @NamedQuery(name = "Book.findByIsbn", query = "SELECT b FROM Book b WHERE b.isbn = :isbn"),
     @NamedQuery(name = "Book.findByTitle", query = "SELECT b FROM Book b WHERE b.title = :title"),
     @NamedQuery(name = "Book.findByNumberOfPages", query = "SELECT b FROM Book b WHERE b.numberOfPages = :numberOfPages"),
-    @NamedQuery(name = "Book.findByCover", query = "SELECT b FROM Book b WHERE b.cover = :cover")})
+    @NamedQuery(name = "Book.findByCover", query = "SELECT b FROM Book b WHERE b.cover = :cover"),
+    @NamedQuery(name = "Book.findByNumberOfPages1", query = "SELECT b FROM Book b WHERE b.numberOfPages1 = :numberOfPages1")})
 public class Book implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
-    @Column(nullable = false, precision = 22, scale = 0)
-    private Double isbn;
+    @Column(name = "isbn")
+    private Long isbn;
     @Basic(optional = false)
-    @Column(nullable = false, length = 45)
+    @Column(name = "title")
     private String title;
+    @Column(name = "numberOfPages")
     private Integer numberOfPages;
-    @Column(length = 45)
+    @Column(name = "cover")
     private String cover;
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @Column(name = "number_of_pages")
+    private Integer numberOfPages1;
+    @JoinColumn(name = "category_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.EAGER)
     private Category categoryId;
+    @OneToMany(mappedBy = "bookIsbn", fetch = FetchType.EAGER)
+    private Collection<Sales> salesCollection;
 
     public Book() {
     }
 
-    public Book(Double isbn) {
+    public Book(Long isbn) {
         this.isbn = isbn;
     }
 
-    public Book(Double isbn, String title) {
+    public Book(Long isbn, String title) {
         this.isbn = isbn;
         this.title = title;
     }
 
-    public Double getIsbn() {
+    public Long getIsbn() {
         return isbn;
     }
 
-    public void setIsbn(Double isbn) {
+    public void setIsbn(Long isbn) {
         this.isbn = isbn;
     }
 
@@ -87,12 +101,29 @@ public class Book implements Serializable {
         this.cover = cover;
     }
 
+    public Integer getNumberOfPages1() {
+        return numberOfPages1;
+    }
+
+    public void setNumberOfPages1(Integer numberOfPages1) {
+        this.numberOfPages1 = numberOfPages1;
+    }
+
     public Category getCategoryId() {
         return categoryId;
     }
 
     public void setCategoryId(Category categoryId) {
         this.categoryId = categoryId;
+    }
+
+    @XmlTransient
+    public Collection<Sales> getSalesCollection() {
+        return salesCollection;
+    }
+
+    public void setSalesCollection(Collection<Sales> salesCollection) {
+        this.salesCollection = salesCollection;
     }
 
     @Override

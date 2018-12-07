@@ -1,17 +1,19 @@
 <%@ include file = "header.jsp" %>
          <div class="col-md-9">
                     
-            <ul class="nav">
-                <li class="nav-header">Books</li>
+            
+                Books
                 <table class="table table-striped">
             <thead>
               <tr>
                 <th>ISBN</th>
                 <th>TITLE</th>
-                <th>numberOfPages</th>
+                <th>NUMBER OF PAGES</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
+            <ul class="nav">
                 <c:forEach items="${allbooks}" var="b">
                
                
@@ -19,12 +21,13 @@
                 <td>${b.isbn}</td>
                 <td>${b.title}</td>
                 <td>${b.numberOfPages}</td>
+                <td><a href="#" id="sold" name="isbn" value="${b.isbn}" ><i class="fas fa-cart-plus"></i></a></td>
               </tr>
                </c:forEach>
+            </ul>
             </tbody>
           </table>
                 
-            </ul>
 
 
             </div>

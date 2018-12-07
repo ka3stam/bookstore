@@ -11,6 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -26,7 +28,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author matina
  */
 @Entity
-@Table(catalog = "books", schema = "")
+@Table(name = "sales")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Sales.findAll", query = "SELECT s FROM Sales s"),
@@ -37,11 +39,14 @@ public class Sales implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "idsales")
     private Integer idsales;
+    @Column(name = "date")
     @Temporal(TemporalType.DATE)
     private Date date;
+    @Column(name = "sold")
     private Integer sold;
     @JoinColumn(name = "book_isbn", referencedColumnName = "isbn")
     @ManyToOne(fetch = FetchType.EAGER)

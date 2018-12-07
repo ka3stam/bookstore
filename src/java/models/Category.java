@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author matina
  */
 @Entity
-@Table(catalog = "books", schema = "")
+@Table(name = "category")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Category.findAll", query = "SELECT c FROM Category c"),
@@ -39,9 +39,9 @@ public class Category implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(nullable = false)
+    @Column(name = "id")
     private Integer id;
-    @Column(length = 45)
+    @Column(name = "title")
     private String title;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "categoryId", fetch = FetchType.EAGER)
     private Collection<Book> bookCollection;
