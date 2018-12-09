@@ -46,12 +46,26 @@ public class Insert {
     @RequestMapping(value="/menu",method=RequestMethod.GET)
     public ModelAndView categoryMenu(ModelMap model){
         List<Category> allcategories = cg.bookCategories();
+       
+        List<Book> allbooks =  cat.getallBooks();
+        Book bestseller = allbooks.get(1);
+        
+        ModelAndView modelAndView = new ModelAndView("home");
+        servletContext.setAttribute("allcategories", allcategories);
+        modelAndView.addObject("bestseller", bestseller);
+        return modelAndView;
+    }
+    
+    @RequestMapping(value="/all",method=RequestMethod.GET)
+    public ModelAndView books(ModelMap model){
+        
         List<Book> allbooks =  cat.getallBooks();
         ModelAndView modelAndView = new ModelAndView("index");
-        servletContext.setAttribute("allcategories", allcategories);
+        
         modelAndView.addObject("allbooks", allbooks);
         return modelAndView;
     }
+    
     
     @RequestMapping(value="/book/{id}",method=RequestMethod.GET)
     public ModelAndView categoryBooks(ModelMap model,@PathVariable("id") String id){
@@ -71,8 +85,8 @@ public class Insert {
     @RequestMapping(value="/toinsertbook",method=RequestMethod.GET)
     public String toinsertBook(ModelMap model){
         Book book = new Book();
-        List<Category> allcategories = cg.bookCategories();
-        model.addAttribute("categ", allcategories);
+//        List<Category> allcategories = cg.bookCategories();
+//        model.addAttribute("categ", allcategories);
         model.addAttribute("book", book);
         return "insertbook";
             }

@@ -39,7 +39,7 @@
             <div class="form-group">
                 <div class="col-xs-6"> 
                     <spring:label path="title" for="catego"><h4> Choose Category </h4></spring:label>
-                    <spring:select path="categoryId" items="${categ}" itemLabel="title" itemValue="id" name = "catego"/>
+                    <spring:select path="categoryId" items="${applicationScope['allcategories']}" itemLabel="title" itemValue="id" name = "catego"/>
                     <spring:errors path="categoryId" />
                 </div>
             </div>
